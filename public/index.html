@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CSM-A</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6fb;
+            color: #172033;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* LOGIN */
+
+        #loginPage {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.10);
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #687386;
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #d5d9e2;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        .input:focus {
+            border-color: #315cf5;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: #315cf5;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .error {
+            color: #d12d2d;
+            margin-bottom: 15px;
+            min-height: 20px;
+        }
+
+        /* APP */
+
+        #app {
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: white;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid #e3e6ed;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logout {
+            border: none;
+            background: #eef1f7;
+            padding: 9px 14px;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 25px 18px 50px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            margin-bottom: 6px;
+        }
+
+        .welcome p {
+            color: #697386;
+        }
+
+        /* NAV */
+
+        .nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin-bottom: 25px;
+        }
+
+        .nav button {
+            white-space: nowrap;
+            border: none;
+            background: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .nav button.active {
+            background: #315cf5;
+            color: white;
+        }
+
+        /* DASHBOARD */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid #e5e8ef;
+        }
+
+        .card h3 {
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #6b7485;
+        }
+
+        /* SECTIONS */
+
+        .section {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid #e5e8ef;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            margin-bottom: 15px;
+        }
+
+        .add-form {
+            display: grid;
+            gap: 12px;
+        }
+
+        .add-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .primary-btn {
+            background: #315cf5;
+            color: white;
+            border: none;
+            padding: 13px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .item {
+            padding: 15px;
+            border: 1px solid #e5e8ef;
+            border-radius: 12px;
+            margin-top: 12px;
+        }
+
+        .item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .item small {
+            color: #778092;
+        }
+
+        /* CHAT */
+
+        .chat-box {
+            height: 350px;
+            overflow-y: auto;
+            border: 1px solid #e0e4ec;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .message {
+            background: #eef2ff;
+            padding: 10px 13px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .message strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #d5d9e2;
+            border-radius: 10px;
+        }
+
+        /* GPS */
+
+        .gps-box {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .location-result {
+            margin-top: 15px;
+            line-height: 1.8;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                font-size: 40px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .topbar {
+                padding: 0 12px;
+            }
+
+            .user-area span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+
+<div id="loginPage">
+
+    <div class="login-card">
+
+        <div class="logo">CSM-A</div>
+
+        <div class="subtitle">
+            College class management & GPS location.
+        </div>
+
+        <div id="loginError" class="error"></div>
+
+        <input
+            id="username"
+            class="input"
+            type="text"
+            placeholder="Username"
+            autocomplete="username"
+        >
+
+        <!-- PASSWORD IS HIDDEN -->
+        <input
+            id="password"
+            class="input"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+        >
+
+        <button class="login-btn" onclick="login()">
+            Login
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN APP -->
+
+<div id="app" class="hidden">
+
+    <header class="topbar">
+
+        <div class="brand">
+            CSM-A
+        </div>
+
+        <div class="user-area">
+            <span id="loggedUser"></span>
+
+            <button class="logout" onclick="logout()">
+                Logout
+            </button>
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <div class="welcome">
+            <h1>Dashboard</h1>
+            <p>Your CSM-A workspace.</p>
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <div class="nav">
+
+            <button class="active" onclick="showSection('dashboard', this)">
+                Dashboard
+            </button>
+
+            <button onclick="showSection('assignments', this)">
+                Assignments
+            </button>
+
+            <button onclick="showSection('records', this)">
+                Records
+            </button>
+
+            <button onclick="showSection('chat', this)">
+                Chat
+            </button>
+
+            <button onclick="showSection('timetable', this)">
+                Timetable
+            </button>
+
+            <button onclick="showSection('gps', this)">
+                GPS
+            </button>
+
+        </div>
+
+
+        <!-- DASHBOARD -->
+
+        <section id="dashboard" class="page-section">
+
+            <div class="cards">
+
+                <div class="card">
+                    <h3>Assignments</h3>
+                    <p id="assignmentCount">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Records</h3>
+                    <p id="recordCount">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Messages</h3>
+                    <p id="messageCount">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Status</h3>
+                    <p>Online</p>
+                </div>
+
+            </div>
+
+            <div class="section">
+                <h2>Welcome to CSM-A</h2>
+                <p>
+                    Use the sections above to manage your class.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- ASSIGNMENTS -->
+
+        <section id="assignments" class="page-section hidden">
+
+            <div class="section">
+
+                <h2>Add Assignment</h2>
+
+                <div class="add-form">
+
+                    <input
+                        id="assignmentTitle"
+                        class="input"
+                        type="text"
+                        placeholder="Assignment title"
+                    >
+
+                    <textarea
+                        id="assignmentDetails"
+                        class="input"
+                        placeholder="Assignment details"
+                    ></textarea>
+
+                    <input
+                        id="assignmentDate"
+                        class="input"
+                        type="date"
+                    >
+
+                    <button class="primary-btn" onclick="addAssignment()">
+                        Add Assignment
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h2>Assignments</h2>
+
+                <div id="assignmentList"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RECORDS -->
+
+        <section id="records" class="page-section hidden">
+
+            <div class="section">
+
+                <h2>Add Record</h2>
+
+                <div class="add-form">
+
+                    <input
+                        id="recordTitle"
+                        class="input"
+                        type="text"
+                        placeholder="Record title"
+                    >
+
+                    <textarea
+                        id="recordDetails"
+                        class="input"
+                        placeholder="Record details"
+                    ></textarea>
+
+                    <button class="primary-btn" onclick="addRecord()">
+                        Add Record
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h2>Records</h2>
+
+                <div id="recordList"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CHAT -->
+
+        <section id="chat" class="page-section hidden">
+
+            <div class="section">
+
+                <h2>Chat</h2>
+
+                <div id="chatBox" class="chat-box"></div>
+
+                <div class="chat-input">
+
+                    <input
+                        id="chatMessage"
+                        type="text"
+                        placeholder="Type your message..."
+                        onkeydown="if(event.key === 'Enter') sendMessage()"
+                    >
+
+                    <button class="primary-btn" onclick="sendMessage()">
+                        Send
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TIMETABLE -->
+
+        <section id="timetable" class="page-section hidden">
+
+            <div class="section">
+
+                <h2>Timetable</h2>
+
+                <div class="add-form">
+
+                    <input
+                        id="day"
+                        class="input"
+                        type="text"
+                        placeholder="Day"
+                    >
+
+                    <input
+                        id="time"
+                        class="input"
+                        type="text"
+                        placeholder="Time"
+                    >
+
+                    <input
+                        id="subject"
+                        class="input"
+                        type="text"
+                        placeholder="Subject"
+                    >
+
+                    <button class="primary-btn" onclick="addTimetable()">
+                        Add to Timetable
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <h2>Your Timetable</h2>
+
+                <div id="timetableList"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- GPS -->
+
+        <section id="gps" class="page-section hidden">
+
+            <div class="section gps-box">
+
+                <h2>GPS Location</h2>
+
+                <p>
+                    Allow location access to see your current position.
+                </p>
+
+                <br>
+
+                <button class="primary-btn" onclick="getLocation()">
+                    Get My Location
+                </button>
+
+                <div id="locationResult" class="location-result"></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+let assignments = [];
+let records = [];
+let messages = [];
+let timetable = [];
+
+
+// LOGIN
+
+async function login() {
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const error =
+        document.getElementById("loginError");
+
+    error.textContent = "";
+
+    if (!username || !password) {
+        error.textContent =
+            "Please enter username and password.";
+        return;
+    }
+
+    try {
+
+        const response = await fetch("/api/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                username,
+                password
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            error.textContent = data.message;
+            return;
+        }
+
+        sessionStorage.setItem(
+            "csmUser",
+            data.username
+        );
+
+        document.getElementById("loggedUser")
+            .textContent = data.username;
+
+        document.getElementById("loginPage")
+            .classList.add("hidden");
+
+        document.getElementById("app")
+            .classList.remove("hidden");
+
+    } catch (err) {
+
+        error.textContent =
+            "Server connection failed. Please try again.";
+
+    }
+}
+
+
+// LOGOUT
+
+function logout() {
+
+    sessionStorage.removeItem("csmUser");
+
+    document.getElementById("app")
+        .classList.add("hidden");
+
+    document.getElementById("loginPage")
+        .classList.remove("hidden");
+
+    document.getElementById("password").value = "";
+}
+
+
+// NAVIGATION
+
+function showSection(sectionId, button) {
+
+    document.querySelectorAll(".page-section")
+        .forEach(section => {
+            section.classList.add("hidden");
+        });
+
+    document.getElementById(sectionId)
+        .classList.remove("hidden");
+
+    document.querySelectorAll(".nav button")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    button.classList.add("active");
+}
+
+
+// ASSIGNMENTS
+
+function addAssignment() {
+
+    const title =
+        document.getElementById("assignmentTitle")
+            .value.trim();
+
+    const details =
+        document.getElementById("assignmentDetails")
+            .value.trim();
+
+    const date =
+        document.getElementById("assignmentDate")
+            .value;
+
+    if (!title) {
+        alert("Enter an assignment title.");
+        return;
+    }
+
+    assignments.push({
+        title,
+        details,
+        date
+    });
+
+    document.getElementById("assignmentTitle").value = "";
+    document.getElementById("assignmentDetails").value = "";
+    document.getElementById("assignmentDate").value = "";
+
+    renderAssignments();
+    updateCounts();
+}
+
+
+function renderAssignments() {
+
+    const list =
+        document.getElementById("assignmentList");
+
+    list.innerHTML = "";
+
+    if (assignments.length === 0) {
+        list.innerHTML =
+            "<p>No assignments added yet.</p>";
+        return;
+    }
+
+    assignments.forEach(item => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "item";
+
+        div.innerHTML = `
+            <strong>${escapeHTML(item.title)}</strong>
+            <p>${escapeHTML(item.details)}</p>
+            <small>${item.date || "No date"}</small>
+        `;
+
+        list.appendChild(div);
+
+    });
+}
+
+
+// RECORDS
+
+function addRecord() {
+
+    const title =
+        document.getElementById("recordTitle")
+            .value.trim();
+
+    const details =
+        document.getElementById("recordDetails")
+            .value.trim();
+
+    if (!title) {
+        alert("Enter a record title.");
+        return;
+    }
+
+    records.push({
+        title,
+        details
+    });
+
+    document.getElementById("recordTitle").value = "";
+    document.getElementById("recordDetails").value = "";
+
+    renderRecords();
+    updateCounts();
+}
+
+
+function renderRecords() {
+
+    const list =
+        document.getElementById("recordList");
+
+    list.innerHTML = "";
+
+    if (records.length === 0) {
+        list.innerHTML =
+            "<p>No records added yet.</p>";
+        return;
+    }
+
+    records.forEach(item => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "item";
+
+        div.innerHTML = `
+            <strong>${escapeHTML(item.title)}</strong>
+            <p>${escapeHTML(item.details)}</p>
+        `;
+
+        list.appendChild(div);
+
+    });
+}
+
+
+// CHAT
+
+function sendMessage() {
+
+    const input =
+        document.getElementById("chatMessage");
+
+    const text =
+        input.value.trim();
+
+    if (!text) return;
+
+    messages.push({
+        username:
+            sessionStorage.getItem("csmUser") || "User",
+        text
+    });
+
+    input.value = "";
+
+    renderChat();
+    updateCounts();
+}
+
+
+function renderChat() {
+
+    const box =
+        document.getElementById("chatBox");
+
+    box.innerHTML = "";
+
+    messages.forEach(message => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "message";
+
+        div.innerHTML = `
+            <strong>${escapeHTML(message.username)}</strong>
+            ${escapeHTML(message.text)}
+        `;
+
+        box.appendChild(div);
+
+    });
+
+    box.scrollTop = box.scrollHeight;
+}
+
+
+// TIMETABLE
+
+function addTimetable() {
+
+    const day =
+        document.getElementById("day").value.trim();
+
+    const time =
+        document.getElementById("time").value.trim();
+
+    const subject =
+        document.getElementById("subject").value.trim();
+
+    if (!day || !time || !subject) {
+
+        alert("Please fill all timetable fields.");
+
+        return;
+    }
+
+    timetable.push({
+        day,
+        time,
+        subject
+    });
+
+    document.getElementById("day").value = "";
+    document.getElementById("time").value = "";
+    document.getElementById("subject").value = "";
+
+    renderTimetable();
+}
+
+
+function renderTimetable() {
+
+    const list =
+        document.getElementById("timetableList");
+
+    list.innerHTML = "";
+
+    if (timetable.length === 0) {
+
+        list.innerHTML =
+            "<p>No timetable entries added yet.</p>";
+
+        return;
+    }
+
+    timetable.forEach(item => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "item";
+
+        div.innerHTML = `
+            <strong>${escapeHTML(item.day)}</strong>
+            <p>${escapeHTML(item.time)}</p>
+            <small>${escapeHTML(item.subject)}</small>
+        `;
+
+        list.appendChild(div);
+
+    });
+}
+
+
+// GPS
+
+function getLocation() {
+
+    const result =
+        document.getElementById("locationResult");
+
+    if (!navigator.geolocation) {
+
+        result.textContent =
+            "GPS is not supported by this browser.";
+
+        return;
+    }
+
+    result.textContent =
+        "Getting your location...";
+
+    navigator.geolocation.getCurrentPosition(
+
+        position => {
+
+            const latitude =
+                position.coords.latitude;
+
+            const longitude =
+                position.coords.longitude;
+
+            result.innerHTML = `
+                <strong>Location found</strong><br>
+                Latitude: ${latitude}<br>
+                Longitude: ${longitude}<br><br>
+                <a
+                    href="https://www.google.com/maps?q=${latitude},${longitude}"
+                    target="_blank"
+                >
+                    Open in Google Maps
+                </a>
+            `;
+
+        },
+
+        error => {
+
+            result.textContent =
+                "Unable to get location. Please allow location permission.";
+
+        }
+
+    );
+}
+
+
+// COUNTS
+
+function updateCounts() {
+
+    document.getElementById("assignmentCount")
+        .textContent = assignments.length;
+
+    document.getElementById("recordCount")
+        .textContent = records.length;
+
+    document.getElementById("messageCount")
+        .textContent = messages.length;
+}
+
+
+// SECURITY HELPER
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+// CHECK EXISTING LOGIN
+
+window.addEventListener("load", () => {
+
+    const user =
+        sessionStorage.getItem("csmUser");
+
+    if (user) {
+
+        document.getElementById("loggedUser")
+            .textContent = user;
+
+        document.getElementById("loginPage")
+            .classList.add("hidden");
+
+        document.getElementById("app")
+            .classList.remove("hidden");
+
+    }
+
+    renderAssignments();
+    renderRecords();
+    renderChat();
+    renderTimetable();
+    updateCounts();
+
+});
+
+</script>
+
+</body>
+</html>
